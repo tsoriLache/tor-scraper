@@ -24,6 +24,10 @@
     "express": "^4.17.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.11.22",
+    "nodemon": "^2.0.15",
+    "tslint": "^6.1.3"
   }
 }
