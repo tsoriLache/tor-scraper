@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "insert": "node ./db/dataInserter.ts",
     "dev": "nodemon index.ts"
   },
   "repository": {
@@ -21,7 +22,8 @@
     "aws-sdk": "^2.1069.0",
     "axios": "^0.25.0",
     "cheerio": "^1.0.0-rc.10",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "md5": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.22",
