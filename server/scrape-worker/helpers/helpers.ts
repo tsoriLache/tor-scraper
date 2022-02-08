@@ -1,4 +1,5 @@
 import { Paste } from '../types';
+import { normalizeDate } from './normalize';
 const axios = require('axios');
 
 const getHtml = async (url: string) => {
@@ -16,9 +17,13 @@ const splitSignature = (signature: string) => {
   if (typeof signature.split('Posted by ')[1] === 'undefined') return {};
   const split = signature.split('Posted by ')[1].split(' at ');
   const author = split[0];
-  const date = split[1].split(', ')[0];
+  const date = split[1].split('Language')[0];
   return { author, date };
 };
+
+// console.log(
+//   splitSignature('Posted by Anonymous at 08 Feb 2022, 09:00:13 UTC ')
+// );
 
 const filterEmptyData = (allData: Paste[]) => {
   const filterdData = allData.filter(
