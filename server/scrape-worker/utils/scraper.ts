@@ -10,6 +10,12 @@ import {
 const BASE_URL =
   'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all?page=';
 const CSS_SELECTOR = '.col-sm-12';
+const EMPTY_PASTE = {
+  title: '',
+  author: '',
+  date: 0,
+  content: '',
+};
 
 export const getAllPastes = async (numberOfPages: number): Promise<Paste[]> => {
   const pastes: Promise<Paste[]>[] = new Array(numberOfPages)
@@ -21,16 +27,7 @@ export const getAllPastes = async (numberOfPages: number): Promise<Paste[]> => {
 const getAllPageData = async (url: string, cssSelector: string) => {
   const links = await getLinks(cssSelector, url);
   const allData: Paste[] = await Promise.all(
-    links.map((link) =>
-      link
-        ? getDataFromLink(`${link}`)
-        : {
-            title: '',
-            author: '',
-            date: '',
-            content: '',
-          }
-    )
+    links.map((link) => (link ? getDataFromLink(`${link}`) : EMPTY_PASTE))
   );
   return filterEmptyData(allData);
 };
@@ -52,12 +49,7 @@ const getLinks = async (cssSelector: string, url: string) => {
 
 const getDataFromLink = async (url: string) => {
   try {
-    let data: Paste = {
-      title: '',
-      author: '',
-      date: '',
-      content: '',
-    };
+    let data: Paste = EMPTY_PASTE;
     const html = await getHtml(url);
     const $ = cheerio.load(html);
     $('.container', html).each(function () {
