@@ -19,8 +19,7 @@ const insertOnePaste = (paste: Paste) => {
 const insertAllPastes = (pastes: Paste[]) => {
   console.log(pastes.length);
   pastes.forEach((paste) => {
-    console.log(paste);
-    // insertOnePaste(paste);
+    insertOnePaste(paste);
   });
 };
 
