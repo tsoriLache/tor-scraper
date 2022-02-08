@@ -7,3 +7,8 @@ const getHtml = async (url: string) => {
   });
   return response.data;
 };
+
+const format = (elem: any) => {
+  return elem.text().replace(/[\n\t\r]/g, '');
+};
+
