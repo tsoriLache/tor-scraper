@@ -1,11 +1,12 @@
 let docClient = require('./config');
 import { getAllPastes } from '../utils/scraper';
 import { Paste } from '../types';
+import { nanoid } from 'nanoid';
 
 const insertOnePaste = (paste: Paste) => {
   const params = {
     TableName: 'pastes',
-    Item: paste,
+    Item: { ...paste, id: nanoid() },
   };
   docClient.put(params, function (err: any, data: any) {
     if (data) {
