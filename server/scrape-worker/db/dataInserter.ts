@@ -19,13 +19,11 @@ const insertOnePaste = (paste: Paste) => {
     'INSERT into pastes2 (id, title, date_utc, content,author) VALUES (?,?,?,?,?)',
     [id, title, date, content, author],
     (err: any, data: any) => {
-      if (err) {
-        err.code === 'ER_DUP_ENTRY'
+      err
+        ? err.code === 'ER_DUP_ENTRY'
           ? console.log('data already exist in db:', err.sqlMessage)
-          : console.log(err);
-      } else {
-        console.log('insert succeeded');
-      }
+          : console.log(err)
+        : console.log('insert succeeded');
     }
   );
 };
