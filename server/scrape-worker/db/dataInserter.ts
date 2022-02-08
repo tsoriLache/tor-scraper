@@ -1,32 +1,47 @@
-let docClient = require('./config');
+let { pool } = require('./config');
 import { getAllPastes } from '../utils/scraper';
 import { Paste } from '../types';
-const md5 = require('md5');
-let i = 1;
-const insertOnePaste = (paste: Paste) => {
-  const id = md5(paste.content);
+const hash = require('object-hash');
 
-  const params = {
-    TableName: 'pastes',
-    Item: { ...paste, id },
-  };
-  docClient.put(params, function (err: any, _data: any) {
-    if (err) console.log(err);
+const CREATE_QUERY =
+  'CREATE TABLE IF NOT EXISTS pastes2 (id VARCHAR(255)  PRIMARY KEY,title VARCHAR(255) NOT NULL,date_utc INT NOT NULL,content MEDIUMTEXT NOT NULL,author VARCHAR(255) NOT NULL,tags TEXT(100),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)  ENGINE=INNODB;';
+
+const createTable = () => {
+  pool.query(CREATE_QUERY, (err: any, data: any) => {
+    console.log(err ? err : data);
   });
 };
 
+const insertOnePaste = (paste: Paste) => {
+  const id = hash(paste);
+  const { author, title, date, content } = paste;
+  pool.query(
+    'INSERT into pastes2 (id, title, date_utc, content,author) VALUES (?,?,?,?,?)',
+    [id, title, date, content, author],
+    (err: any, data: any) => {
+      if (err) {
+        err.code === 'ER_DUP_ENTRY'
+          ? console.log('data already exist in db:', err.sqlMessage)
+          : console.log(err);
+      } else {
+        console.log('insert succeeded');
+      }
+    }
+  );
+};
+
 const insertAllPastes = (pastes: Paste[]) => {
+  createTable();
   console.log(pastes.length);
   pastes.forEach((paste) => {
-    console.log(i++, md5(paste.content));
-
     insertOnePaste(paste);
   });
 };
 
 const job = async () => {
-  const pastes = await getAllPastes(6);
-  insertAllPastes(pastes);
+  // pool.query('drop table pastes2', (a: any, b: any) => console.log(a, b));  //delete data
+  // pool.query('select id from pastes2', (a: any, b: any) => console.log(a, b)); //get all ids
+  insertAllPastes(await getAllPastes(6)); //insert all from page 1-x
 };
 
 job();
