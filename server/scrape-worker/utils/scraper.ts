@@ -6,7 +6,7 @@ import {
   filterEmptyData,
   splitSignature,
 } from '../helpers/helpers';
-import { normalizeDate } from '../helpers/normalize';
+import { normalizeContent, normalizeDate } from '../helpers/normalize';
 
 const BASE_URL =
   'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all?page=';
@@ -58,7 +58,12 @@ const getDataFromLink = async (url: string) => {
       const content = format($(this).find('.text'));
       const signature = format($(this).find('.col-sm-6'));
       const { author, date } = splitSignature(signature);
-      data = { title, content, author, date: normalizeDate(date) };
+      data = {
+        title,
+        content: normalizeContent(content),
+        author,
+        date: normalizeDate(date),
+      };
     });
     return data;
   } catch (err) {
@@ -69,7 +74,7 @@ const getDataFromLink = async (url: string) => {
 const tryi = async () => {
   console.log(
     await getDataFromLink(
-      'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/psfnt4gol'
+      'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/pwtejwwgn'
     )
   );
 };

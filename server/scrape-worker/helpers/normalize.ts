@@ -10,5 +10,8 @@ const normalizeDate = (date: string): number => {
   return Date.parse(date);
 };
 // Content - Must be stripped of trailing s
+const normalizeContent = (content: string): string => {
+  return content.replace(/\s+$/, '');
+};
 
-export { normalizeAuthor, normalizeDate };
+export { normalizeAuthor, normalizeDate, normalizeContent };
