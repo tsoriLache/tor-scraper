@@ -1,0 +1,31 @@
+{
+  "name": "tor-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsoriLache/tor-scraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsoriLache/tor-scraper/issues"
+  },
+  "homepage": "https://github.com/tsoriLache/tor-scraper#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1069.0",
+    "axios": "^0.25.0",
+    "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.22",
+    "nodemon": "^2.0.15",
+    "tslint": "^6.1.3"
+  }
+}
