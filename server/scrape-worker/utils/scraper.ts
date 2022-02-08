@@ -74,7 +74,9 @@ const getDataFromLink = async (url: string) => {
 };
 
 // const tryi = async () => {
-//   console.log((await getAllPastes(5)).length);
+//   const pastes = await getAllPastes(5);
+//   const noDup = [...new Set(pastes)];
+//   console.log(`pastes${pastes.length} - noDup${noDup.length}`);
 // };
 
 // tryi();
