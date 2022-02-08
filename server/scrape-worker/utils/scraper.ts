@@ -6,7 +6,12 @@ import {
   filterEmptyData,
   splitSignature,
 } from '../helpers/helpers';
-import { normalizeContent, normalizeDate } from '../helpers/normalize';
+import {
+  normalizeAuthor,
+  normalizeContent,
+  normalizeDate,
+  normalizeTitle,
+} from '../helpers/normalize';
 
 const BASE_URL =
   'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all?page=';
@@ -59,9 +64,9 @@ const getDataFromLink = async (url: string) => {
       const signature = format($(this).find('.col-sm-6'));
       const { author, date } = splitSignature(signature);
       data = {
-        title,
+        title: normalizeTitle(title),
         content: normalizeContent(content),
-        author,
+        author: normalizeAuthor(author),
         date: normalizeDate(date),
       };
     });
