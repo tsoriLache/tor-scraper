@@ -76,12 +76,12 @@ const getDataFromLink = async (url: string) => {
   }
 };
 
-const tryi = async () => {
-  console.log(
-    await getDataFromLink(
-      'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/pwtejwwgn'
-    )
-  );
-};
+// const tryi = async () => {
+//   console.log(
+//     await getDataFromLink(
+//       'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/pwtejwwgn'
+//     )
+//   );
+// };
 
-tryi();
+// tryi();
