@@ -19,3 +19,12 @@ const splitSignature = (signature: string) => {
   const date = split[1].split(', ')[0];
   return { author, date };
 };
+
+const filterEmptyData = (allData: Paste[]) => {
+  const filterdData = allData.filter(
+    ({ date, author, content, title }) => date && author && content && title
+  );
+  return filterdData;
+};
+
+export { getHtml, format, filterEmptyData, splitSignature };
