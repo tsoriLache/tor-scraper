@@ -1,13 +1,17 @@
 require('dotenv').config();
 
-const AWS = require('aws-sdk');
+// get the client
+const mysql = require('mysql2');
 
-AWS.config.update({
-  region: 'us-east-1',
-  accessKeyId: process.env.aws_access_key_id,
-  secretAccessKey: process.env.aws_secret_access_key,
+// Create the connection pool.
+const pool = mysql.createPool({
+  host: process.env.HOST,
+  user: process.env.USER,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
-const client = new AWS.DynamoDB.DocumentClient();
-
-module.exports = client;
+export { pool };
