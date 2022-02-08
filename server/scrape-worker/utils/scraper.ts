@@ -25,3 +25,26 @@ const getLinks = async (cssSelector: string, url: string) => {
     console.log(err);
   }
 };
+
+const getDataFromLink = async (url: string) => {
+  try {
+    let data: Paste = {
+      title: '',
+      author: '',
+      date: '',
+      content: '',
+    };
+    const html = await getHtml(url);
+    const $ = cheerio.load(html);
+    $('.container', html).each(function () {
+      const title = format($(this).find('h4'));
+      const content = format($(this).find('.text'));
+      const signature = format($(this).find('.col-sm-6'));
+      const { author, date } = splitSignature(signature);
+      data = { title, content, author, date };
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
