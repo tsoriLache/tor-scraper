@@ -11,6 +11,13 @@ const BASE_URL =
   'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all?page=';
 const CSS_SELECTOR = '.col-sm-12';
 
+export const getAllPastes = async (numberOfPages: number): Promise<Paste[]> => {
+  const pastes: Promise<Paste[]>[] = new Array(numberOfPages)
+    .fill('')
+    .map((_, i) => getAllPageData(`${BASE_URL}${i}`, CSS_SELECTOR));
+  return (await Promise.all(pastes)).flat();
+};
+
 const getAllPageData = async (url: string, cssSelector: string) => {
   const links = await getLinks(cssSelector, url);
   const allData: Paste[] = await Promise.all(
@@ -65,3 +72,9 @@ const getDataFromLink = async (url: string) => {
     console.log(err);
   }
 };
+
+// const tryi = async () => {
+//   console.log((await getAllPastes(5)).length);
+// };
+
+// tryi();
