@@ -11,6 +11,23 @@ const BASE_URL =
   'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all?page=';
 const CSS_SELECTOR = '.col-sm-12';
 
+const getAllPageData = async (url: string, cssSelector: string) => {
+  const links = await getLinks(cssSelector, url);
+  const allData: Paste[] = await Promise.all(
+    links.map((link) =>
+      link
+        ? getDataFromLink(`${link}`)
+        : {
+            title: '',
+            author: '',
+            date: '',
+            content: '',
+          }
+    )
+  );
+  return filterEmptyData(allData);
+};
+
 const getLinks = async (cssSelector: string, url: string) => {
   try {
     const html = await getHtml(url);
