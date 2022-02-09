@@ -26,7 +26,7 @@ const EMPTY_PASTE = {
 export const getAllPastes = async (numberOfPages: number): Promise<Paste[]> => {
   const pastes: Promise<Paste[]>[] = new Array(numberOfPages)
     .fill('')
-    .map((_, i) => getAllPageData(`${BASE_URL}${i}`, CSS_SELECTOR));
+    .map((_, i) => getAllPageData(`${BASE_URL}${i + 1}`, CSS_SELECTOR));
   return (await Promise.all(pastes)).flat();
 };
 
