@@ -11,13 +11,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/recent', (req, res) => {
-  pool.query('SELECT * FROM pastes limit 10', (err: any, data: any) => {
-    if (err) console.log(err);
-    else {
-      console.log(data);
-      res.json(data);
+  pool.query(
+    'SELECT * FROM pastes order by date_utc desc limit 10',
+    (err: any, data: any) => {
+      if (err) console.log(err);
+      else {
+        console.log(data);
+        res.json(data);
+      }
     }
-  });
+  );
 });
 
 app.listen(PORT, () => {
