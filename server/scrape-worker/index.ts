@@ -27,4 +27,6 @@ const execute = async () => {
   insertAllPastes(await getAllPastes(6)); //insert all from page 1-x
 };
 
-execute();
+// setInterval(() => {
+//   execute();
+// }, 120000);
