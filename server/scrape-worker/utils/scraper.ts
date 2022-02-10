@@ -1,5 +1,5 @@
 import cheerio from 'cheerio';
-import { Paste } from '../types';
+import { IPaste } from '../types';
 import {
   getHtml,
   format,
@@ -23,8 +23,10 @@ const EMPTY_PASTE = {
   content: '',
 };
 
-export const getAllPastes = async (numberOfPages: number): Promise<Paste[]> => {
-  const pastes: Promise<Paste[]>[] = new Array(numberOfPages)
+export const getAllPastes = async (
+  numberOfPages: number
+): Promise<IPaste[]> => {
+  const pastes: Promise<IPaste[]>[] = new Array(numberOfPages)
     .fill('')
     .map((_, i) => getAllPageData(`${BASE_URL}${i + 1}`, CSS_SELECTOR));
   return (await Promise.all(pastes)).flat();
@@ -32,7 +34,7 @@ export const getAllPastes = async (numberOfPages: number): Promise<Paste[]> => {
 
 const getAllPageData = async (url: string, cssSelector: string) => {
   const links = await getLinks(cssSelector, url);
-  const allData: Paste[] = await Promise.all(
+  const allData: IPaste[] = await Promise.all(
     links.map((link) => (link ? getDataFromLink(`${link}`) : EMPTY_PASTE))
   );
   return filterEmptyData(allData);
@@ -55,7 +57,7 @@ const getLinks = async (cssSelector: string, url: string) => {
 
 const getDataFromLink = async (url: string) => {
   try {
-    let data: Paste = EMPTY_PASTE;
+    let data: IPaste = EMPTY_PASTE;
     const html = await getHtml(url);
     const $ = cheerio.load(html);
     $('.container', html).each(function () {
