@@ -7,6 +7,7 @@ router.get('/recent', async (req, res) => {
   try {
     const recentPastes = await Paste.findAll({
       limit: 20,
+      order: [['date_utc', 'DESC']],
     });
     res.json(recentPastes);
   } catch (err) {
