@@ -1,4 +1,4 @@
-export interface Paste {
+export interface IPaste {
   title: string;
   author: string;
   date: number;
