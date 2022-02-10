@@ -1,5 +1,4 @@
-import { Paste } from '../types';
-import { normalizeDate } from './normalize';
+import { IPaste } from '../types';
 const axios = require('axios');
 
 const getHtml = async (url: string) => {
@@ -25,7 +24,7 @@ const splitSignature = (signature: string) => {
 //   splitSignature('Posted by Anonymous at 08 Feb 2022, 09:00:13 UTC ')
 // );
 
-const filterEmptyData = (allData: Paste[]) => {
+const filterEmptyData = (allData: IPaste[]) => {
   const filterdData = allData.filter(
     ({ date, author, content, title }) => date && author && content && title
   );

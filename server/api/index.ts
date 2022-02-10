@@ -1,27 +1,19 @@
-const PORT = 5000;
-
 import express from 'express';
-const app = express();
 import cors from 'cors';
-import { pool } from './db/config';
+
+const app = express();
+const PORT = 8000;
+import pasteRouter from './routers/pasteRouter';
+import statsRouter from './routers/statsRouter';
+
 app.use(cors());
 
 app.get('/', (req, res) => {
   res.json('This is my web-scraper');
 });
 
-app.get('/recent', (req, res) => {
-  pool.query(
-    'SELECT * FROM pastes order by date_utc desc limit 10',
-    (err: any, data: any) => {
-      if (err) console.log(err);
-      else {
-        console.log(data);
-        res.json(data);
-      }
-    }
-  );
-});
+app.use('/paste', pasteRouter);
+app.use('/stats', statsRouter);
 
 app.listen(PORT, () => {
   console.log(`server running on PORT ${PORT}`);

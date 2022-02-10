@@ -24,10 +24,12 @@
     "cheerio": "^1.0.0-rc.10",
     "dotenv": "^16.0.0",
     "mysql2": "^2.3.3",
-    "object-hash": "^2.2.0"
+    "object-hash": "^2.2.0",
+    "sequelize": "^6.16.1"
   },
   "devDependencies": {
     "@types/node": "^16.11.22",
+    "@types/object-hash": "^2.2.1",
     "nodemon": "^2.0.15",
     "tslint": "^6.1.3"
   }
