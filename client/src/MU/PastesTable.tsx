@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { SERVER_DOMAIN } from '../config';
 
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
@@ -23,12 +24,12 @@ interface Paste {
 }
 
 export default function Recent() {
-  const UTCtoStrig = (utc: number) => new Date(utc).toString();
+  const UTCtoString = (utc: number) => new Date(utc).toString();
   const [recentPastes, setRecentPastes] = useState([{} as Paste]);
   useEffect(() => {
     const recentPastesFromDB = async () => {
       const { data }: { data: Paste[] } = await axios.get(
-        `http://localhost:5000/recent`
+        `${SERVER_DOMAIN}paste/recent`
       );
       console.log(data);
 
@@ -57,7 +58,7 @@ export default function Recent() {
             <TableRow key={id}>
               <TableCell>{title}</TableCell>
               <TableCell>{tags}</TableCell>
-              <TableCell>{UTCtoStrig(date_utc)}</TableCell>
+              <TableCell>{UTCtoString(date_utc)}</TableCell>
               <TableCell>{author}</TableCell>
               <TableCell align="right">{`${100}`}</TableCell>
             </TableRow>
