@@ -4,7 +4,7 @@ import { Paste } from '../types';
 const hash = require('object-hash');
 
 const CREATE_QUERY =
-  'CREATE TABLE IF NOT EXISTS pastes (id VARCHAR(255)  PRIMARY KEY,title VARCHAR(255) NOT NULL,date_utc INT NOT NULL,content MEDIUMTEXT NOT NULL,author VARCHAR(255) NOT NULL,tags TEXT(100),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)  ENGINE=INNODB;';
+  'CREATE TABLE IF NOT EXISTS pastes (id VARCHAR(255)  PRIMARY KEY,title VARCHAR(255) NOT NULL,date_utc bigint NOT NULL,content MEDIUMTEXT NOT NULL,author VARCHAR(255) NOT NULL,tags TEXT(100),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)  ENGINE=INNODB;';
 
 const createTable = () => {
   pool.query(CREATE_QUERY, (err: any, data: any) => {
