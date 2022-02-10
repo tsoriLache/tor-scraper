@@ -1,17 +1,24 @@
 require('dotenv').config();
+const { Sequelize } = require('sequelize');
 
-// get the client
-const mysql = require('mysql2');
+// Option 3: Passing parameters separately (other dialects)
+const sequelize = new Sequelize(
+  process.env.DATABASE,
+  process.env.USER,
+  process.env.PASSWORD,
+  {
+    host: process.env.HOST,
+    dialect: 'mysql',
+  }
+);
 
-// Create the connection pool.
-const pool = mysql.createPool({
-  host: process.env.HOST,
-  user: process.env.USER,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
+const testConnection = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+};
 
-export { pool };
+export default sequelize;
