@@ -6,33 +6,38 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function preventDefault(event: React.MouseEvent) {
   event.preventDefault();
 }
 
-const mockPaste = {
-  id: '033858db765ccf788fcf9051021cc9646934fadc',
-  title: 'Dark Web Chat Rooms',
-  date_utc: 2147483647,
-  content:
-    'http://v3pastedc5jeqahtq77gvu3vz222bcqhlfubfunzjzqedg6jdqqlvgqd.onion/view.php?paste=9FZ10NiYQSIX',
-  author: 'Anonymous',
-  tags: 'malware',
-};
+interface Paste {
+  id: string;
+  title: string;
+  date_utc: number;
+  content: string;
+  author: string;
+  tags: string;
+}
 
 export default function Recent() {
   const UTCtoStrig = (utc: number) => new Date(utc).toString();
-  // const getRecentPastes = ()=>{}
-  const [recentPastes, setRecentPastes] = useState([
-    mockPaste,
-    mockPaste,
-    mockPaste,
-    mockPaste,
-    mockPaste,
-    mockPaste,
-  ]);
+  const [recentPastes, setRecentPastes] = useState([{} as Paste]);
+  useEffect(() => {
+    const recentPastesFromDB = async () => {
+      const { data }: { data: Paste[] } = await axios.get(
+        `http://localhost:5000/recent`
+      );
+      console.log(data);
+
+      setRecentPastes(data);
+    };
+
+    recentPastesFromDB();
+  }, []);
+
   //TODO send req to server for recent 10 pastes
   return (
     <React.Fragment>
