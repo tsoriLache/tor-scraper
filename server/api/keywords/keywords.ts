@@ -21,7 +21,7 @@ const searchKeywords = async (keywords: string[], clientId: string) => {
 };
 
 const organizedResult = (keywords: string[], results: any) => {
-  const organizedResult: any = [];
+  const organizedResult: { [x: string]: string[] }[] = [];
   keywords.forEach((keyword: string, i: number) =>
     organizedResult.push({ [keyword]: results[i] })
   );
@@ -42,5 +42,12 @@ const searchKeyword = async (keyword: string) => {
     console.log(err);
   }
 };
+
+// const getNewPastes = (oldarr: any, newarr: any): any => {
+//   const comparison = (a: any, b: any) => a.id !== b.id;
+//   return newarr.filter((n: any) => oldarr.every((o: any) => comparison(o, n)));
+// };
+
+// getNewPastes()
 
 export { searchKeywords, searchForAllClientsKeywords as searchForKeywords };
