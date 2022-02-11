@@ -5,12 +5,18 @@ import {
   Input,
   InputLabel,
 } from '@mui/material';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { SERVER_DOMAIN } from '../../config';
 import KWPastes, { Paste } from './KeywordsPastes';
 
+const sendKeywords = (clientId: string, keywords: string[]) => {
+  axios.post(`${SERVER_DOMAIN}kw/${clientId}`, { keywords });
+};
+
 export default function KeywordsPage() {
-  const clientId = 12345;
+  const clientId = '12345';
+  const [input, setInput] = useState('');
   const [datakw, setDataKw] = useState([] as any);
   const [listening, setListening] = useState(false);
   const [match, setMatch] = useState(false);
@@ -39,7 +45,7 @@ export default function KeywordsPage() {
           id="my-input"
           aria-describedby="my-helper-text"
           onChange={({ target }) => {
-            console.log(target.value);
+            setInput(target.value);
           }}
         />
         <FormHelperText id="my-helper-text">
@@ -48,7 +54,7 @@ export default function KeywordsPage() {
         <Button
           variant="contained"
           onClick={() => {
-            alert('clicked');
+            sendKeywords(clientId, input.split('|'));
           }}
         >
           Send
