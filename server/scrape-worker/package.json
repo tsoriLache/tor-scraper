@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "insert": "node ./db/dataInserter.ts",
-    "dev": "nodemon index.ts"
+    "scrape": "ts-node index"
   },
   "repository": {
     "type": "git",
