@@ -41,9 +41,12 @@ router.get('/:clientId', (req: any, res: any, next: any) => {
 router.post('/:clientId', async (req: any, res: any, next: any) => {
   const { clientId } = req.params;
   const { keywords } = req.body;
-  const crIndex = results.findIndex((cr) => cr.clientId === clientId);
+  let crIndex = results.findIndex((cr) => cr.clientId === clientId);
   if (crIndex >= 0) results[crIndex].result = { old: [], neww: [] };
-  else results.push({ clientId, result: { old: [], neww: [] } });
+  else {
+    results.push({ clientId, result: { old: [], neww: [] } });
+    crIndex = 0;
+  }
 
   const newResult = await searchForKeywords(keywords);
   sendEventsToClient(newResult, clientId);
