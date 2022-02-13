@@ -7,6 +7,7 @@ import {
 } from '../keywords/checker';
 const router = express.Router();
 
+let results: { clientId: string; result: Result }[] = [];
 let clients: any = [];
 let pastes: any[][] = [];
 
@@ -37,21 +38,25 @@ router.get('/:clientId', (req: any, res: any, next: any) => {
   });
 });
 
-let results: Result;
 router.post('/:clientId', async (req: any, res: any, next: any) => {
-  results = { old: [], neww: [] };
   const { clientId } = req.params;
   const { keywords } = req.body;
+  const crIndex = results.findIndex((cr) => cr.clientId === clientId);
+  if (crIndex >= 0) results[crIndex].result = { old: [], neww: [] };
+  else results.push({ clientId, result: { old: [], neww: [] } });
 
   const newResult = await searchForKeywords(keywords);
   sendEventsToClient(newResult, clientId);
   setInterval(async () => {
     console.log('2min');
     const newResult = await searchForKeywords(keywords);
-    results.old = results.neww;
-    results.neww = newResult;
-    if (results.old.length > 0) {
-      const newPastes = getAllKeysForNewPastes(results.old, results.neww);
+    results[crIndex].result.old = results[crIndex].result.neww;
+    results[crIndex].result.neww = newResult;
+    if (results[crIndex].result.old.length > 0) {
+      const newPastes = getAllKeysForNewPastes(
+        results[crIndex].result.old,
+        results[crIndex].result.neww
+      );
       if (checkAllKeysForNewPastes(newPastes))
         sendNotificationToClient(newPastes, newResult, clientId);
     }

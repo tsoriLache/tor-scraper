@@ -19,9 +19,9 @@ const getAllKeysForNewPastes = (oldResult: any, result: any) => {
 const checkAllKeysForNewPastes = (
   result: { [x: string]: string[] }[]
 ): boolean => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   return !result.every(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     (resultByKey: any) => Object.values(resultByKey)[0].length === 0
   );
 };
