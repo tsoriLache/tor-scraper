@@ -4,8 +4,9 @@ import { sequelize } from './db/Model';
 import hash from 'object-hash';
 import { IPaste } from './types';
 
-const insertAllPastes = (pastes: IPaste[]) => {
+const insertAllPastes = async (pastes: IPaste[]) => {
   console.log(pastes.length);
+  await sequelize.sync();
   pastes.forEach((paste) => {
     insertOnePaste(paste);
   });
@@ -14,10 +15,9 @@ const insertAllPastes = (pastes: IPaste[]) => {
 const insertOnePaste = async (paste: IPaste) => {
   const id = hash(paste);
   try {
-    await sequelize.sync();
     await Paste.create({ ...paste, id, date_utc: paste.date });
   } catch (err) {
-    console.log(err);
+    console.log(err.parent.code);
   }
 };
 
@@ -27,6 +27,7 @@ const execute = async () => {
   insertAllPastes(await getAllPastes(6)); //insert all from page 1-x
 };
 
-// setInterval(() => {
-//   execute();
-// }, 120000);
+execute();
+setInterval(() => {
+  execute();
+}, 120000);
