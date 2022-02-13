@@ -17,10 +17,11 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
-import Chart from './Chart';
-import Deposits from './Deposits';
+import { mainListItems } from './listItems';
 import Recent from './PastesTable';
+import KWPastes from './keywords/KeywordsPastes';
+import KeywordsPage from './keywords/KeywordsPage';
+import Notify from './Notify';
 
 function Copyright(props: any) {
   return (
@@ -94,6 +95,9 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
   const [open, setOpen] = React.useState(true);
+  const [route, setRoute] = React.useState('recent');
+  const [notifications, setNotifications] = React.useState([]);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -129,8 +133,14 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+            <IconButton
+              color="inherit"
+              onClick={() => {
+                setRoute('notify');
+                setNotifications([]);
+              }}
+            >
+              <Badge badgeContent={notifications.length} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -151,9 +161,8 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
+            {mainListItems(setRoute)}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
           </List>
         </Drawer>
         <Box
@@ -170,39 +179,16 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                {route === 'recent' ? (
                   <Recent />
-                </Paper>
-              </Grid>
+                ) : route === 'keywords' ? (
+                  <KeywordsPage setNote={setNotifications} />
+                ) : (
+                  <Notify notifications={notifications} />
+                )}
+              </Paper>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>

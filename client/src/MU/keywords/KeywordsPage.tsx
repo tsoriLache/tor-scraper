@@ -15,7 +15,7 @@ const sendKeywords = (clientId: string, keywords: string[]) => {
   axios.post(`${SERVER_DOMAIN}kw/${clientId}`, { keywords });
 };
 
-export default function KeywordsPage() {
+export default function KeywordsPage({ setNote }: any) {
   const [input, setInput] = useState('');
   const [datakw, setDataKw] = useState([] as any);
   const [listening, setListening] = useState(false);
@@ -29,7 +29,7 @@ export default function KeywordsPage() {
 
         if (parsedData[0] === undefined) {
           if (parsedData.notify) {
-            console.log(parsedData.notify);
+            setNote(parsedData.notify);
             setMatch(true);
             setDataKw(parsedData.data);
           } else {
@@ -67,15 +67,17 @@ export default function KeywordsPage() {
           Send
         </Button>
       </FormControl>
-      {match
-        ? datakw.map((kwPastesObj: { string: Paste[] }) => (
-            <KWPastes
-              key={Object.keys(kwPastesObj)[0]}
-              pastes={Object.values(kwPastesObj)[0]}
-              title={Object.keys(kwPastesObj)[0]}
-            />
-          ))
-        : 'no match'}
+      <div>
+        {match
+          ? datakw.map((kwPastesObj: { string: Paste[] }) => (
+              <KWPastes
+                key={Object.keys(kwPastesObj)[0]}
+                pastes={Object.values(kwPastesObj)[0]}
+                title={Object.keys(kwPastesObj)[0]}
+              />
+            ))
+          : 'no match'}
+      </div>
     </div>
   );
 }
