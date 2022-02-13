@@ -1,31 +1,11 @@
 import { Paste } from '../db/Model';
 import { Op } from 'sequelize';
-import { sendEventsToClient } from '../routers/keywordsRouter';
-import { ClientRequest } from '../types';
 
-const searchForAllClientsKeywords = (searchRequests: ClientRequest[]) => {
-  console.log(searchRequests);
-  if (searchRequests) {
-    console.log('searching...');
-    searchRequests.forEach(({ keywords, clientId }: ClientRequest) => {
-      searchKeywords(keywords, clientId);
-    });
-  }
-};
-
-const searchKeywords = async (keywords: string[], clientId: string) => {
+const searchKeywords = async (keywords: string[]) => {
   const results = await Promise.all(
     keywords.map(async (keyword) => await searchKeyword(keyword))
   );
-  return sendEventsToClient(organizedResult(keywords, results), clientId);
-};
-
-const organizedResult = (keywords: string[], results: any) => {
-  const organizedResult: { [x: string]: string[] }[] = [];
-  keywords.forEach((keyword: string, i: number) =>
-    organizedResult.push({ [keyword]: results[i] })
-  );
-  return organizedResult;
+  return organizedResult(keywords, results);
 };
 
 const searchKeyword = async (keyword: string) => {
@@ -43,11 +23,12 @@ const searchKeyword = async (keyword: string) => {
   }
 };
 
-// const getNewPastes = (oldarr: any, newarr: any): any => {
-//   const comparison = (a: any, b: any) => a.id !== b.id;
-//   return newarr.filter((n: any) => oldarr.every((o: any) => comparison(o, n)));
-// };
+const organizedResult = (keywords: string[], results: any) => {
+  const organizedResult: { [x: string]: string[] }[] = [];
+  keywords.forEach((keyword: string, i: number) =>
+    organizedResult.push({ [keyword]: results[i] })
+  );
+  return organizedResult;
+};
 
-// getNewPastes()
-
-export { searchKeywords, searchForAllClientsKeywords as searchForKeywords };
+export default searchKeywords;
