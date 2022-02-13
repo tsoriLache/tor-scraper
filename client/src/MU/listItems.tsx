@@ -8,21 +8,28 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 
-export const mainListItems = (
+export const mainListItems = (setRoute: any) => (
   <React.Fragment>
-    <ListItemButton>
+    <ListItemButton
+      onClick={() => {
+        setRoute('recent');
+      }}
+    >
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton
+      onClick={() => {
+        setRoute('notify');
+      }}
+    >
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Notifications" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
@@ -30,31 +37,15 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Reports" />
     </ListItemButton>
-    <ListItemButton onClick={() => {}}>
+    <ListItemButton
+      onClick={() => {
+        setRoute('keywords');
+      }}
+    >
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="By Keywords" />
-    </ListItemButton>
-  </React.Fragment>
-);
-
-export const secondaryListItems = (
-  <React.Fragment>
-    <ListSubheader component="div" inset>
-      Saved reports
-    </ListSubheader>
-    <ListItemButton>
-      <ListItemIcon>{/* <AssignmentIcon /> */}</ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>{/* <AssignmentIcon /> */}</ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>{/* <AssignmentIcon /> */}</ListItemIcon>
-      <ListItemText primary="Year-end sale" />
     </ListItemButton>
   </React.Fragment>
 );
