@@ -33,6 +33,7 @@ const tagUntaggedPastes = async () => {
   }
 };
 
+tagUntaggedPastes();
 setInterval(() => {
   tagUntaggedPastes();
 }, 120000);
