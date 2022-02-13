@@ -9,13 +9,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { SERVER_DOMAIN } from '../../config';
 import KWPastes, { Paste } from './KeywordsPastes';
+const CLIENT_ID = '12345';
 
 const sendKeywords = (clientId: string, keywords: string[]) => {
   axios.post(`${SERVER_DOMAIN}kw/${clientId}`, { keywords });
 };
 
 export default function KeywordsPage() {
-  const clientId = '12345';
   const [input, setInput] = useState('');
   const [datakw, setDataKw] = useState([] as any);
   const [listening, setListening] = useState(false);
@@ -23,11 +23,18 @@ export default function KeywordsPage() {
 
   useEffect(() => {
     if (!listening) {
-      const events = new EventSource(`${SERVER_DOMAIN}kw/${clientId}`);
+      const events = new EventSource(`${SERVER_DOMAIN}kw/${CLIENT_ID}`);
       events.onmessage = (event) => {
         const parsedData = JSON.parse(event.data);
+
         if (parsedData[0] === undefined) {
-          setMatch(false);
+          if (parsedData.notify) {
+            console.log(parsedData.notify);
+            setMatch(true);
+            setDataKw(parsedData.data);
+          } else {
+            setMatch(false);
+          }
         } else {
           setMatch(true);
           setDataKw(parsedData);
@@ -54,7 +61,7 @@ export default function KeywordsPage() {
         <Button
           variant="contained"
           onClick={() => {
-            sendKeywords(clientId, input.split('|'));
+            sendKeywords(CLIENT_ID, input.split('|'));
           }}
         >
           Send
